@@ -83,20 +83,15 @@ public class PlayerMove : MonoBehaviour
             }
 
             // Definir AimPressed quando o botão direito do mouse for pressionado
-            if (Input.GetMouseButton(1)) // Botão direito do mouse
-            {
-                animator.SetBool("AimPressed", true);
-            }
-            else
-            {
-                animator.SetBool("AimPressed", false);
-            }
-        }
+            bool isAiming = Input.GetMouseButton(1); // Botão direito do mouse
+            animator.SetBool("AimPressed", isAiming);
 
-        // Shooting method
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(bullet, firePoint.position, firePoint.rotation);
+            // Shooting logic and animation trigger
+            if (isAiming && Input.GetMouseButtonDown(0)) // Botão esquerdo do mouse
+            {
+                animator.SetTrigger("Shooting"); // Usar trigger em vez de bool
+                Instantiate(bullet, firePoint.position, firePoint.rotation);
+            }
         }
     }
 }
