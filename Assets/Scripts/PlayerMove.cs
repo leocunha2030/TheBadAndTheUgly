@@ -7,33 +7,35 @@ public class PlayerMove : MonoBehaviour
     public float mouseSensitivity;
     public float gravity = -9.81f;
     public float jumpHeight = 1.5f;
-    public float runSpeedMultiplier = 1.5f;
+    public float runSpeedMultiplier = 1.5f; // Multiplicador para corrida
 
     private Vector3 moveInput;
     private Vector3 velocity;
     public Transform cameraTransform;
     public Animator animator;
-    public bool canJump = true;
+    public bool canJump = true; // Variável para controlar o pulo
 
     public GameObject bullet;
     public Transform firePoint;
 
-    [Header("Inverse Kinematics Settings")]
-    public Transform aimTarget; // O alvo para o qual a mão/arma deve apontar
-    public float ikWeight = 1.0f; // Peso do IK (de 0 a 1)
+    // IK settings
+    public Transform aimTarget;
+    public float aimIKTransitionTime = 0.1f;
+    private float currentIKWeight = 0f; // Peso atual do IK
+    public float aimIKTransitionSpeed = 3f; // Velocidade de transição do IK
 
-    private float verticalRotation = 0f;
-    public float maxVerticalAngle = 60f;
-
+    // Start is called before the first frame update
     void Start()
     {
     }
 
+    // Update is called once per frame
     void Update()
     {
         Vector3 verticalMove = transform.forward * Input.GetAxis("Vertical");
         Vector3 horizontalMove = transform.right * Input.GetAxis("Horizontal");
 
+        // Verificar se o jogador está segurando Shift para correr
         float currentSpeed = moveSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -45,7 +47,7 @@ public class PlayerMove : MonoBehaviour
         if (characterController.isGrounded)
         {
             canJump = true;
-            velocity.y = -2f;
+            velocity.y = -2f; // Manter o jogador no chão
             if (canJump && Input.GetButtonDown("Jump"))
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -61,38 +63,37 @@ public class PlayerMove : MonoBehaviour
 
         characterController.Move((moveInput + velocity) * Time.deltaTime);
 
-        // Rotação da câmera e do personagem
+        // Camera rotation
         Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
 
-        // Rotação horizontal do corpo
         transform.Rotate(Vector3.up * mouseInput.x);
-
-        // Rotação vertical da câmera
-        verticalRotation -= mouseInput.y;
-        verticalRotation = Mathf.Clamp(verticalRotation, -maxVerticalAngle, maxVerticalAngle);
-        cameraTransform.localEulerAngles = new Vector3(verticalRotation, 0f, 0f);
+        float newVerticalRotation = cameraTransform.localEulerAngles.x - mouseInput.y;
+        newVerticalRotation = (newVerticalRotation > 180) ? newVerticalRotation - 360 : newVerticalRotation;
+        newVerticalRotation = Mathf.Clamp(newVerticalRotation, -90f, 90f);
+        cameraTransform.localEulerAngles = new Vector3(newVerticalRotation, 0f, 0f);
 
         // Atualizar o Animator para idle, walk, run e aim
         if (animator != null)
         {
             if (moveInput == Vector3.zero)
             {
-                animator.SetFloat("Speed", 0);
+                animator.SetFloat("Speed", 0); // Idle
             }
             else if (!Input.GetKey(KeyCode.LeftShift))
             {
-                animator.SetFloat("Speed", 0.5f);
+                animator.SetFloat("Speed", 0.5f); // Walk
             }
             else
             {
-                animator.SetFloat("Speed", 1);
+                animator.SetFloat("Speed", 1); // Run
             }
 
-            bool isAiming = Input.GetMouseButton(1);
+            // Definir AimPressed quando o botão direito do mouse for pressionado
+            bool isAiming = Input.GetMouseButton(1); // Botão direito do mouse
             animator.SetBool("AimPressed", isAiming);
 
-            // Animação de tiro
-            if (isAiming && Input.GetMouseButtonDown(0))
+            // Shooting animation
+            if (isAiming && Input.GetMouseButtonDown(0)) // Botão esquerdo do mouse
             {
                 animator.SetBool("Shooting", true);
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
@@ -102,33 +103,38 @@ public class PlayerMove : MonoBehaviour
                 animator.SetBool("Shooting", false);
             }
         }
-
-        // Atualizar a posição do alvo do IK para a direção da mira
-        if (aimTarget != null)
-        {
-            aimTarget.position = cameraTransform.position + cameraTransform.forward * 10f; // Ponto alvo à frente da câmera
-        }
     }
 
+    // Método IK do Animator
     void OnAnimatorIK(int layerIndex)
     {
         if (animator != null)
         {
-            bool isAiming = Input.GetMouseButton(1); // Verifica se o jogador está mirando
-
-            if (isAiming)
+            if (Input.GetMouseButton(1)) // Botão direito do mouse
             {
-                // Definir a posição da mão direita para o alvo da mira
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, ikWeight);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, ikWeight);
+                // Gradualmente aumente o peso para fazer uma transição suave para o IK
+                currentIKWeight = Mathf.Clamp01(currentIKWeight + Time.deltaTime * aimIKTransitionSpeed);
+
+                // Definir o peso do IK para a mão direita
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, currentIKWeight);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, currentIKWeight);
+
+                // Definir a posição e rotação do IK para a mão direita
                 animator.SetIKPosition(AvatarIKGoal.RightHand, aimTarget.position);
                 animator.SetIKRotation(AvatarIKGoal.RightHand, aimTarget.rotation);
+
+                // Definir o peso do IK para a cabeça
+                animator.SetLookAtWeight(currentIKWeight);
+                animator.SetLookAtPosition(cameraTransform.position + cameraTransform.forward * 10f);
             }
             else
             {
-                // Desativar o IK quando não estiver mirando
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                // Gradualmente reduza o peso do IK para desativar suavemente o IK
+                currentIKWeight = Mathf.Clamp01(currentIKWeight - Time.deltaTime * aimIKTransitionSpeed);
+
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, currentIKWeight);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, currentIKWeight);
+                animator.SetLookAtWeight(currentIKWeight);
             }
         }
     }
