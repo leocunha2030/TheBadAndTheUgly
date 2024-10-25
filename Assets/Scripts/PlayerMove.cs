@@ -54,10 +54,6 @@ public class PlayerMove : MonoBehaviour
                 canJump = false;
             }
         }
-        else
-        {
-            canJump = false;
-        }
 
         velocity.y += gravity * Time.deltaTime;
 
@@ -95,12 +91,8 @@ public class PlayerMove : MonoBehaviour
             // Shooting animation
             if (isAiming && Input.GetMouseButtonDown(0)) // Botão esquerdo do mouse
             {
-                animator.SetBool("Shooting", true);
+                animator.SetTrigger("Shooting");
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
-            }
-            else
-            {
-                animator.SetBool("Shooting", false);
             }
         }
     }
@@ -125,7 +117,7 @@ public class PlayerMove : MonoBehaviour
 
                 // Definir o peso do IK para a cabeça
                 animator.SetLookAtWeight(currentIKWeight);
-                animator.SetLookAtPosition(cameraTransform.position + cameraTransform.forward * 10f);
+                animator.SetLookAtPosition(aimTarget.position);
             }
             else
             {
