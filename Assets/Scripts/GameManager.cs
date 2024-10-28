@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    public float waitAfterDeath = 3f;
 
     private void Awake()
     {
@@ -22,6 +25,12 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
+        StartCoroutine(PlayerDeathCoroutine());
+    }
+    public IEnumerator PlayerDeathCoroutine()
+    {
+        yield return new WaitForSeconds(waitAfterDeath);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
     }
 }
