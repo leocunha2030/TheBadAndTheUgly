@@ -1,8 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -12,5 +18,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void PlayerDeath()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
