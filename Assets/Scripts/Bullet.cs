@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     public float bulletSpeed, lifeTime;
 
+    public int damage;
+
     public Rigidbody theRigidbody;
 
     // Start is called before the first frame update
@@ -27,6 +29,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
+        }
         Destroy(gameObject);
     }
 }

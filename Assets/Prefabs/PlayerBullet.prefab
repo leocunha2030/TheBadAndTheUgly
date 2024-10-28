@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 10
   lifeTime: 5
+  damage: 5
   theRigidbody: {fileID: 3574885022032112599}
 --- !u!54 &3574885022032112599
 Rigidbody:
