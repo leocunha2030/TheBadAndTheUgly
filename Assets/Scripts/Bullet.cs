@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     public Rigidbody theRigidbody;
 
+    public bool damageEnemy, damagePlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +30,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && damageEnemy)
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
         }
+
+        if (other.gameObject.tag == "Player" && damagePlayer)
+        {
+            // Add logic for damaging the player here
+        }
+
         Destroy(gameObject);
     }
 }

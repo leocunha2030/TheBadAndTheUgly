@@ -125,10 +125,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c5a547185ae364293726a47fd49673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 10
-  lifeTime: 5
+  bulletSpeed: 15
+  lifeTime: 3
   damage: 5
   theRigidbody: {fileID: 3574885022032112599}
+  damageEnemy: 1
+  damagePlayer: 0
 --- !u!54 &3574885022032112599
 Rigidbody:
   m_ObjectHideFlags: 0

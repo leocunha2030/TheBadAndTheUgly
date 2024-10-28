@@ -9,6 +9,8 @@ public class PlayerMove : MonoBehaviour
     public float runSpeedMultiplier = 1.5f; // Multiplicador para corrida
     public float jumpVelocity; // Velocidade do pulo
 
+    public static PlayerMove instance;
+
     private Vector3 moveInput;
     private Vector3 velocity;
     public Transform cameraTransform;
@@ -26,6 +28,10 @@ public class PlayerMove : MonoBehaviour
 
     public CharacterController characterController;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
