@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     public float moveSpeed, distanceToStop;
-    
+
     public NavMeshAgent agent;
     private Vector3 target;
 
@@ -13,6 +13,9 @@ public class EnemyMove : MonoBehaviour
     private float fireCount, shotwaitCounter, shootTimeCounter;
     public GameObject bullet;
     public Animator animator;
+
+    private bool isFiring = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,27 +37,30 @@ public class EnemyMove : MonoBehaviour
 
             agent.destination = target;
             animator.SetBool("IsMoving", true);
+            animator.SetBool("Fire", false);
+            isFiring = false;
         }
         else
         {
             agent.destination = transform.position;
-            animator.SetTrigger("Fire");
+            animator.SetBool("IsMoving", false);
+            isFiring = true;
         }
 
-        if(shotwaitCounter > 0)
+        if (shotwaitCounter > 0)
         {
             shotwaitCounter -= Time.deltaTime;
 
-            if(shotwaitCounter <= 0)
+            if (shotwaitCounter <= 0)
             {
                 shootTimeCounter = timeToShoot;
             }
         }
-        else
+        else if (isFiring)
         {
             shootTimeCounter -= Time.deltaTime;
 
-            if(shootTimeCounter > 0)
+            if (shootTimeCounter > 0)
             {
                 fireCount -= Time.deltaTime;
 
@@ -70,22 +76,25 @@ public class EnemyMove : MonoBehaviour
                     if (Mathf.Abs(angle) < 30f)
                     {
                         Instantiate(bullet, firePoint.position, firePoint.rotation);
+                        animator.SetBool("Fire", true);
                     }
                     else
                     {
                         transform.LookAt(PlayerMove.instance.transform.position);
                         shotwaitCounter = waitBetweenShots;
                     }
-
                 }
-
             }
             else
             {
                 shotwaitCounter = waitBetweenShots;
+                isFiring = false;
+                animator.SetBool("Fire", false);
             }
         }
-
-       
+        else
+        {
+            animator.SetBool("Fire", false);
+        }
     }
 }
