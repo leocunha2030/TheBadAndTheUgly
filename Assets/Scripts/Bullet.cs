@@ -34,10 +34,14 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
         }
+        if (other.gameObject.tag == "Head" && damageEnemy)
+        {
+            other.transform.parent.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage * 2);
+        }
 
         if (other.gameObject.tag == "Player" && damagePlayer)
         {
-            // Add logic for damaging the player here
+            PlayerHealth.instance.DamagePlayer(damage);
         }
 
         Destroy(gameObject);

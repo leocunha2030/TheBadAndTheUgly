@@ -49,7 +49,7 @@ public class EnemyMove : MonoBehaviour
             Vector3 targetDirection = PlayerMove.instance.transform.position - transform.position;
             float angle = Vector3.SignedAngle(targetDirection, transform.forward, Vector3.up);
 
-            if (Mathf.Abs(angle) < 45f)
+            if (Mathf.Abs(angle) < 15f)
             {
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
                 animator.SetTrigger("Fire");
@@ -60,6 +60,10 @@ public class EnemyMove : MonoBehaviour
             }
 
             if (agent.remainingDistance < 0.3f)
+            {
+                animator.SetBool("IsMoving", false);
+            }
+            else
             {
                 animator.SetBool("IsMoving", true);
             }
