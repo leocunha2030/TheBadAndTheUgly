@@ -23725,6 +23725,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Bottle_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1120658469607168, guid: efd58ab25710d5d4b9c4c14f897337de, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4972010260527850, guid: efd58ab25710d5d4b9c4c14f897337de, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -23781,7 +23785,8 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64969295375821950, guid: efd58ab25710d5d4b9c4c14f897337de, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -43152,7 +43157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feaf01e002d44545af8841a9f7697f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 20
+  currentHealth: 50
 --- !u!114 &1186860812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45096,7 +45101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20dca606867b2df478b1a24416f23399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 15
+  maxHealth: 100
   currentHealth: 0
 --- !u!4 &1234274919 stripped
 Transform:
@@ -74769,7 +74774,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1958190068}
-  m_Layer: 0
+  - component: {fileID: 1958190069}
+  - component: {fileID: 1958190070}
+  m_Layer: 6
   m_Name: Health Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74792,6 +74799,42 @@ Transform:
   - {fileID: 625302022}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1958190069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958190067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e48846bad98f8498d06a43b7897937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heal: 25
+--- !u!136 &1958190070
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958190067}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.14729822
+  m_Height: 0.7354754
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.3364511, z: 1.1864022}
 --- !u!4 &1958945495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4493886742648108, guid: 4f93dd837a4f7a54bb95d10ec4233866, type: 3}
