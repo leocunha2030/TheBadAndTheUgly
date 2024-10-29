@@ -7,8 +7,9 @@ public class UI : MonoBehaviour
     public static UI instance;
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    // Use Awake to initialize the instance before other scripts call it
+    void Awake()
     {
         instance = this;
     }
@@ -16,6 +17,6 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
