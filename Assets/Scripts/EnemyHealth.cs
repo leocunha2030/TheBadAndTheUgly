@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int currentHealth;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,13 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            animator.SetBool("Dead", true);
+            Invoke("DestroyAfterDelay", 3f);
         }
+    }
+
+    void DestroyAfterDelay()
+    {
+        Destroy(gameObject);
     }
 }
