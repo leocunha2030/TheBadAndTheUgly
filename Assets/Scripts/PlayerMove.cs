@@ -28,6 +28,13 @@ public class PlayerMove : MonoBehaviour
 
     public CharacterController characterController;
 
+    private int fireCounter = 0; // Contador de tiros
+    public float fireRate = 0.5f; // Intervalo entre cada tiro
+    private float nextFireTime = 0f;
+    public int currentAmmunition = 10; // Quantidade de munição atual
+    public int maxLoadedAmmo = 10; // Munição máxima no pente
+    public int reserveAmmo = 50; // Munição em reserva
+
     private void Awake()
     {
         instance = this;
@@ -104,7 +111,7 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("AimPressed", isAiming);
 
             // Shooting animation
-            if (isAiming && Input.GetMouseButtonDown(0)) // Botão esquerdo do mouse
+            if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime && currentAmmunition > 0) // Botão esquerdo do mouse
             {
                 animator.SetTrigger("Shooting");
 
@@ -123,6 +130,22 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
+                fireCounter++;
+                currentAmmunition--; // Reduzir a quantidade de munição
+                nextFireTime = Time.time + fireRate;
+                Debug.Log("Tiros disparados: " + fireCounter);
+                Debug.Log("Munição restante no pente: " + currentAmmunition);
+                Debug.Log("Munição em reserva: " + reserveAmmo);
+            }
+
+            // Recarregar arma
+            if (Input.GetKeyDown(KeyCode.R) && currentAmmunition < maxLoadedAmmo && reserveAmmo > 0)
+            {
+                int ammoNeeded = maxLoadedAmmo - currentAmmunition;
+                int ammoToReload = Mathf.Min(ammoNeeded, reserveAmmo);
+                currentAmmunition += ammoToReload;
+                reserveAmmo -= ammoToReload;
+                Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
             }
         }
     }
