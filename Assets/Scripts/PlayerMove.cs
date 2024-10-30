@@ -31,9 +31,9 @@ public class PlayerMove : MonoBehaviour
     private int fireCounter = 0; // Contador de tiros
     public float fireRate = 0.5f; // Intervalo entre cada tiro
     private float nextFireTime = 0f;
-    public int currentAmmunition = 10; // Quantidade de munição atual
-    public int maxLoadedAmmo = 10; // Munição máxima no pente
-    public int reserveAmmo = 50; // Munição em reserva
+    public int currentAmmunition = 6; // Quantidade de munição atual
+    public int maxLoadedAmmo = 6; // Munição máxima no pente
+    public int reserveAmmo = 10; // Munição em reserva
 
     private void Awake()
     {
