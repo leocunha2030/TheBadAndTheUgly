@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -14,21 +15,24 @@ public class EnemyMove : MonoBehaviour
     public float fireDelay; // Delay do tiro para sincronizar a animação
     public GameObject bullet;
     public Animator animator;
+
+    public GameObject MuzzleFlash; // Adicionando a variável do MuzzleFlash
+
     // Start is called before the first frame update
     void Start()
     {
+        if (MuzzleFlash != null)
+        {
+            MuzzleFlash.SetActive(false); // Garantir que o MuzzleFlash esteja desativado ao iniciar
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         target = PlayerMove.instance.transform.position;
-        //target.y = transform.position.y;
 
         agent.destination = target;
-
-        //ansform.LookAt(target);
-        //eRigidbody.linearVelocity = transform.forward * moveSpeed;
 
         if (Vector3.Distance(transform.position, target) > distanceToStop)
         {
@@ -53,6 +57,9 @@ public class EnemyMove : MonoBehaviour
             {
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
                 animator.SetTrigger("Fire");
+
+                // Ativar o MuzzleFlash quando a bala for instanciada
+                StartCoroutine(WaitAndSetActiveFalse());
             }
             else
             {
@@ -67,6 +74,16 @@ public class EnemyMove : MonoBehaviour
             {
                 animator.SetBool("IsMoving", true);
             }
+        }
+    }
+
+    IEnumerator WaitAndSetActiveFalse()
+    {
+        if (MuzzleFlash != null && !MuzzleFlash.activeSelf)
+        {
+            MuzzleFlash.SetActive(true);
+            yield return new WaitForSeconds(0.03f); // Duração do MuzzleFlash
+            MuzzleFlash.SetActive(false);
         }
     }
 }
