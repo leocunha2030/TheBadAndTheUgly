@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class PlayerMove : MonoBehaviour
     public int maxLoadedAmmo = 6; // Munição máxima no pente
     public int reserveAmmo = 10; // Munição em reserva
 
+    public GameObject MuzzleFlash;
+
     private void Awake()
     {
         instance = this;
@@ -42,6 +45,10 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (MuzzleFlash != null)
+        {
+            MuzzleFlash.SetActive(false); // Garantir que o MuzzleFlash esteja desativado ao iniciar
+        }
     }
 
     // Update is called once per frame
@@ -130,12 +137,15 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 Instantiate(bullet, firePoint.position, firePoint.rotation);
+
                 fireCounter++;
                 currentAmmunition--; // Reduzir a quantidade de munição
                 nextFireTime = Time.time + fireRate;
                 Debug.Log("Tiros disparados: " + fireCounter);
                 Debug.Log("Munição restante no pente: " + currentAmmunition);
                 Debug.Log("Munição em reserva: " + reserveAmmo);
+
+                StartCoroutine(WaitAndSetActiveFalse());
             }
 
             // Recarregar arma
@@ -147,6 +157,15 @@ public class PlayerMove : MonoBehaviour
                 reserveAmmo -= ammoToReload;
                 Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
             }
+        }
+    }
+    IEnumerator WaitAndSetActiveFalse()
+    {
+        if (MuzzleFlash != null && !MuzzleFlash.activeSelf)
+        {
+            MuzzleFlash.SetActive(true);
+            yield return new WaitForSeconds(0.03f);
+            MuzzleFlash.SetActive(false);
         }
     }
 
