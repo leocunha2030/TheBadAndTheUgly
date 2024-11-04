@@ -11,6 +11,9 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI currentAmmoText; // Texto para exibir munição atual e máxima
     public TextMeshProUGUI reserveAmmoText; // Texto para exibir munição em reserva
 
+    public Image DamageEffect;
+    public float damageAlpha = 0.3f, damageFadeSpeed = 3f;
+
     private void Awake()
     {
         instance = this;
@@ -19,6 +22,11 @@ public class UI : MonoBehaviour
     private void Update()
     {
         UpdateAmmoDisplay();
+        if(DamageEffect.color.a != 0)
+        {
+            DamageEffect.color = new Color(DamageEffect.color.r, DamageEffect.color.g, DamageEffect.color.b,
+                Mathf.MoveTowards(DamageEffect.color.a, 0f, damageFadeSpeed * Time.deltaTime));
+        }
     }
 
     public void UpdateAmmoDisplay()
@@ -35,5 +43,9 @@ public class UI : MonoBehaviour
             // Exibir munição em reserva
             reserveAmmoText.text = $"{reserveAmmo}";
         }
+    }
+    public void ShowDamage()
+    {
+        DamageEffect.color = new Color(DamageEffect.color.r, DamageEffect.color.g, DamageEffect.color.b, 0.3f);
     }
 }

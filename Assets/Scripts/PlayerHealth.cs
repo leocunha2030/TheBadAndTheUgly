@@ -28,6 +28,7 @@ public class PlayerHealth : MonoBehaviour
     public void DamagePlayer(int damage)
     {
         currentHealth -= damage;
+        UI.instance.ShowDamage();
         if (currentHealth <= 0)
         {
             gameObject.SetActive(false);
