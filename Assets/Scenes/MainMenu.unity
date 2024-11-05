@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -144, y: 148}
+  m_AnchoredPosition: {x: -139, y: 163}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &363385434
@@ -504,7 +504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -114, y: 135}
+  m_AnchoredPosition: {x: -109, y: 150}
   m_SizeDelta: {x: -377.58, y: -274.0469}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1122092446
@@ -640,7 +640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -368, y: 284}
+  m_AnchoredPosition: {x: -363, y: 299}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130436487
@@ -932,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -252, y: 238}
+  m_AnchoredPosition: {x: -247, y: 253}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1457008776
@@ -1672,6 +1672,10 @@ PrefabInstance:
     - target: {fileID: 2829419751482560855, guid: 5b277ba3698287b499d9e0e5b71b6897, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2853031040733491089, guid: 5b277ba3698287b499d9e0e5b71b6897, type: 3}
+      propertyPath: m_Name
+      value: Character_Gunman_MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 4371478381018413513, guid: 5b277ba3698287b499d9e0e5b71b6897, type: 3}
       propertyPath: m_Name
