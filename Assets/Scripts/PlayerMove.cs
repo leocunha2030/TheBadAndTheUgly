@@ -37,6 +37,7 @@ public class PlayerMove : MonoBehaviour
 
     public GameObject MuzzleFlash;
     public GameObject killCountMenu; // Referência ao menu de contagem de kills
+    public AudioSource reloadSound; // Referência ao som de recarga
 
     private void Awake()
     {
@@ -145,6 +146,11 @@ public class PlayerMove : MonoBehaviour
                     currentAmmunition += ammoToReload;
                     reserveAmmo -= ammoToReload;
                     Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
+
+                    if (reloadSound != null)
+                    {
+                        reloadSound.Play();
+                    }
                 }
             }
 
