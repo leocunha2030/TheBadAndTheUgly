@@ -23,8 +23,9 @@ public class EnemyHealth : MonoBehaviour
         {
             animator.SetBool("Dead", true);
             Invoke("DestroyAfterDelay", 3f);
-            UI.instance.killedEnemies++;
-            UI.instance.killedEnemiesText.text = "Kills:........................ " + UI.instance.killedEnemies;
+            GameManager.instance.killedEnemies++;
+            //UI.instance.killedEnemies++;
+            UI.instance.killedEnemiesText.text = "Kills:........................ " + GameManager.instance.killedEnemies;
         }
     }
 

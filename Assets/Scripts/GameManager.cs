@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public float waitAfterDeath = 3f;
 
+    public int killedEnemies;
+
     private void Awake()
     {
         instance = this;
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerDeath()
+    /*public void PlayerDeath()
     {
         StartCoroutine(PlayerDeathCoroutine());
     }
@@ -35,7 +37,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(waitAfterDeath);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-    }
+    }*/
+
     public void PauseUnpause()
     {
         if (UI.instance.pauseScreen.activeInHierarchy)

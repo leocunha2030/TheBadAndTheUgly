@@ -1,9 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth instance;
     public int maxHealth, currentHealth;
+
+    public float timeUnitlFinalScreen = 1f;
+    public string finalScreenScene;
 
     private void Awake()
     {
@@ -31,10 +36,11 @@ public class PlayerHealth : MonoBehaviour
         UI.instance.ShowDamage();
         if (currentHealth <= 0)
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
 
             currentHealth = 0;
-            GameManager.instance.PlayerDeath();
+            StartCoroutine(WaitingForFinalScreen());
+            //GameManager.instance.PlayerDeath();
         }
 
         UI.instance.healthSlider.value = currentHealth;
@@ -50,5 +56,11 @@ public class PlayerHealth : MonoBehaviour
         }
         UI.instance.healthSlider.value = currentHealth;
         UI.instance.healthText.text = "Health: " + currentHealth + "/" + maxHealth;
+    }
+    public IEnumerator WaitingForFinalScreen()
+    {
+        yield return new WaitForSeconds(timeUnitlFinalScreen);
+        SceneManager.LoadScene(finalScreenScene);
+        Cursor.lockState = CursorLockMode.None;
     }
 }
