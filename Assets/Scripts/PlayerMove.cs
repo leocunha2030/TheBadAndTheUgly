@@ -38,6 +38,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject MuzzleFlash;
     public GameObject killCountMenu; // Referência ao menu de contagem de kills
     public AudioSource reloadSound; // Referência ao som de recarga
+    public AudioSource emptyGunSound; // Referência ao som de arma sem munição
 
     private void Awake()
     {
@@ -112,31 +113,43 @@ public class PlayerMove : MonoBehaviour
                 bool isAiming = Input.GetMouseButton(1);
                 animator.SetBool("AimPressed", isAiming);
 
-                if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime && currentAmmunition > 0)
+                if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
                 {
-                    animator.SetTrigger("Shooting");
-                    RaycastHit hit;
-                    if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 200f))
+                    if (currentAmmunition > 0)
                     {
-                        if (Vector3.Distance(cameraTransform.position, hit.point) > 1f)
+                        animator.SetTrigger("Shooting");
+                        RaycastHit hit;
+                        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 200f))
                         {
-                            firePoint.LookAt(hit.point);
+                            if (Vector3.Distance(cameraTransform.position, hit.point) > 1f)
+                            {
+                                firePoint.LookAt(hit.point);
+                            }
+                            else
+                            {
+                                firePoint.LookAt(cameraTransform.position + (cameraTransform.forward * 40f));
+                            }
                         }
-                        else
-                        {
-                            firePoint.LookAt(cameraTransform.position + (cameraTransform.forward * 40f));
-                        }
+
+                        Instantiate(bullet, firePoint.position, firePoint.rotation);
+                        fireCounter++;
+                        currentAmmunition--;
+                        nextFireTime = Time.time + fireRate;
+                        Debug.Log("Tiros disparados: " + fireCounter);
+                        Debug.Log("Munição restante no pente: " + currentAmmunition);
+                        Debug.Log("Munição em reserva: " + reserveAmmo);
+
+                        StartCoroutine(WaitAndSetActiveFalse());
                     }
-
-                    Instantiate(bullet, firePoint.position, firePoint.rotation);
-                    fireCounter++;
-                    currentAmmunition--;
-                    nextFireTime = Time.time + fireRate;
-                    Debug.Log("Tiros disparados: " + fireCounter);
-                    Debug.Log("Munição restante no pente: " + currentAmmunition);
-                    Debug.Log("Munição em reserva: " + reserveAmmo);
-
-                    StartCoroutine(WaitAndSetActiveFalse());
+                    else
+                    {
+                        // Toca o som de arma sem munição
+                        if (emptyGunSound != null)
+                        {
+                            emptyGunSound.Play();
+                        }
+                        Debug.Log("Sem munição!");
+                    }
                 }
 
                 if (Input.GetKeyDown(KeyCode.R) && currentAmmunition < maxLoadedAmmo && reserveAmmo > 0)

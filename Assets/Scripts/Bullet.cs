@@ -5,18 +5,18 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletSpeed, lifeTime;
-
     public int damage;
-
     public Rigidbody theRigidbody;
-
     public bool damageEnemy, damagePlayer;
-    // Start is called before the first frame update
+
+    // Prefabs dos efeitos
+    public GameObject bloodSplatterPrefab;
+    public GameObject dustEffectPrefab;
+
     void Start()
     {
     }
 
-    // Update is called once per frame
     void Update()
     {
         theRigidbody.linearVelocity = transform.forward * bulletSpeed;
@@ -32,16 +32,27 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy" && damageEnemy)
         {
+            // Aplica o dano ao inimigo
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
+            // Instancia o efeito de blood splatter
+            Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
         }
-        if (other.gameObject.tag == "Head" && damageEnemy)
+        else if (other.gameObject.tag == "Head" && damageEnemy)
         {
             other.transform.parent.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage * 2);
+            Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
         }
-
-        if (other.gameObject.tag == "Player" && damagePlayer)
+        else if (other.gameObject.tag == "Player" && damagePlayer)
         {
+            // Aplica dano ao jogador
             PlayerHealth.instance.DamagePlayer(damage);
+            // Instancia o efeito de blood splatter ao atingir o jogador
+            Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            // Instancia o efeito de poeira para outros objetos
+            Instantiate(dustEffectPrefab, transform.position, Quaternion.identity);
         }
 
         Destroy(gameObject);

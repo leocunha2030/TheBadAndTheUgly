@@ -126,12 +126,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c5a547185ae364293726a47fd49673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 15
+  bulletSpeed: 25
   lifeTime: 3
   damage: 5
   theRigidbody: {fileID: 3574885022032112599}
   damageEnemy: 0
   damagePlayer: 1
+  bloodSplatterPrefab: {fileID: 166404, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
+  dustEffectPrefab: {fileID: 157586, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
 --- !u!54 &3574885022032112599
 Rigidbody:
   m_ObjectHideFlags: 0
