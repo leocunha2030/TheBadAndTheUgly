@@ -7,6 +7,7 @@ public class UI : MonoBehaviour
     public static UI instance;
     public Slider healthSlider;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI killedEnemiesText;
 
     public TextMeshProUGUI currentAmmoText; // Texto para exibir munição atual e máxima
     public TextMeshProUGUI reserveAmmoText; // Texto para exibir munição em reserva
@@ -15,7 +16,8 @@ public class UI : MonoBehaviour
     public float damageAlpha = 0.3f, damageFadeSpeed = 3f;
 
     public GameObject pauseScreen;
-
+    public int killedEnemies;
+    
     private void Awake()
     {
         instance = this;
