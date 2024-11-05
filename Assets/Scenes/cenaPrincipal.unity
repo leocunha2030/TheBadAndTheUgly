@@ -45446,7 +45446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 7401350185466123117, guid: 116de45bbdcabb5498c84aa281c9a0d1, type: 3}
-  timeToSpawn: 10
+  timeToSpawn: 3
 --- !u!4 &1163850453
 Transform:
   m_ObjectHideFlags: 0
@@ -48270,7 +48270,7 @@ MonoBehaviour:
   moveSpeed: 4
   mouseSensitivity: 1
   gravity: -30
-  jumpHeight: 0.5
+  jumpHeight: 1
   runSpeedMultiplier: 1.5
   jumpVelocity: 0
   cameraTransform: {fileID: 1333626902}
@@ -48341,7 +48341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20dca606867b2df478b1a24416f23399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 100
   currentHealth: 0
   timeUnitlFinalScreen: 1
   finalScreenScene: GameOver
