@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUnpause();
+        }
     }
 
     public void PlayerDeath()
@@ -32,5 +35,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(waitAfterDeath);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+    }
+    public void PauseUnpause()
+    {
+        if (UI.instance.pauseScreen.activeInHierarchy)
+        {
+            UI.instance.pauseScreen.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1f;
+
+        }
+        else
+        {
+            UI.instance.pauseScreen.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0f;
+        }
     }
 }

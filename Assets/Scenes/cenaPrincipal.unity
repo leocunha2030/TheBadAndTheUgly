@@ -7555,13 +7555,14 @@ GameObject:
   - component: {fileID: 203036080}
   - component: {fileID: 203036082}
   - component: {fileID: 203036081}
+  - component: {fileID: 203036083}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &203036080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7622,6 +7623,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203036079}
   m_CullTransparentMesh: 1
+--- !u!114 &203036083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203036079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25232c5b019c5384f986a60745b06551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: MainMenu
 --- !u!4 &203402100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4365054245417938, guid: 827cdc91ce656b54e907953e440024d0, type: 3}
@@ -27163,7 +27177,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 722866878}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 203036083}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &722866878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27212,7 +27238,7 @@ Animator:
   m_GameObject: {fileID: 722866875}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 69f20220e99537540ad1a93358d8bcd4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 913352267a06e6e4c8e06e5073030272, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -53762,7 +53788,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1396950572}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 203036083}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1396950572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53811,7 +53849,7 @@ Animator:
   m_GameObject: {fileID: 1396950569}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 702ce80628395eb49a7b16469dcb31ba, type: 2}
+  m_Controller: {fileID: 9100000, guid: 913352267a06e6e4c8e06e5073030272, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -56490,6 +56528,7 @@ MonoBehaviour:
   DamageEffect: {fileID: 1284028403}
   damageAlpha: 0.7
   damageFadeSpeed: 0.4
+  pauseScreen: {fileID: 203036079}
 --- !u!1001 &1451101370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58620,7 +58659,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1507468815}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 203036083}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1507468815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58669,7 +58720,7 @@ Animator:
   m_GameObject: {fileID: 1507468812}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 126c200a6d05b504885218f9e34cf1cd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 913352267a06e6e4c8e06e5073030272, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

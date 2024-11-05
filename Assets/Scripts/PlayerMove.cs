@@ -54,108 +54,113 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 verticalMove = transform.forward * Input.GetAxis("Vertical");
-        Vector3 horizontalMove = transform.right * Input.GetAxis("Horizontal");
-
-        // Verificar se o jogador está segurando Shift para correr
-        float currentSpeed = moveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (!UI.instance.pauseScreen.activeInHierarchy)
         {
-            currentSpeed *= runSpeedMultiplier;
-        }
 
-        moveInput = (horizontalMove + verticalMove).normalized * currentSpeed;
 
-        if (characterController.isGrounded)
-        {
-            canJump = true;
-            velocity.y = -2f; // Manter o jogador no chão
-            if (canJump && Input.GetButtonDown("Jump"))
+            Vector3 verticalMove = transform.forward * Input.GetAxis("Vertical");
+            Vector3 horizontalMove = transform.right * Input.GetAxis("Horizontal");
+
+            // Verificar se o jogador está segurando Shift para correr
+            float currentSpeed = moveSpeed;
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                jumpVelocity = velocity.y;
-                canJump = false;
-                animator.SetBool("Jumping", true); // Definir o parâmetro bool para a animação de pulo
+                currentSpeed *= runSpeedMultiplier;
             }
-        }
-        else
-        {
-            animator.SetBool("Jumping", false);
-        }
 
-        velocity.y += gravity * Time.deltaTime;
+            moveInput = (horizontalMove + verticalMove).normalized * currentSpeed;
 
-        // Aplicar movimento
-        characterController.Move((moveInput + new Vector3(0, velocity.y, 0)) * Time.deltaTime);
-
-        // Camera rotation
-        Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-
-        transform.Rotate(Vector3.up * mouseInput.x);
-        float newVerticalRotation = cameraTransform.localEulerAngles.x - mouseInput.y;
-        newVerticalRotation = (newVerticalRotation > 180) ? newVerticalRotation - 360 : newVerticalRotation;
-        newVerticalRotation = Mathf.Clamp(newVerticalRotation, -90f, 90f);
-        cameraTransform.localEulerAngles = new Vector3(newVerticalRotation, 0f, 0f);
-
-        // Atualizar o Animator para idle, walk, run e aim
-        if (animator != null)
-        {
-            if (moveInput == Vector3.zero)
+            if (characterController.isGrounded)
             {
-                animator.SetFloat("Speed", 0); // Idle
-            }
-            else if (!Input.GetKey(KeyCode.LeftShift))
-            {
-                animator.SetFloat("Speed", 0.5f); // Walk
+                canJump = true;
+                velocity.y = -2f; // Manter o jogador no chão
+                if (canJump && Input.GetButtonDown("Jump"))
+                {
+                    velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                    jumpVelocity = velocity.y;
+                    canJump = false;
+                    animator.SetBool("Jumping", true); // Definir o parâmetro bool para a animação de pulo
+                }
             }
             else
             {
-                animator.SetFloat("Speed", 1); // Run
+                animator.SetBool("Jumping", false);
             }
 
-            // Definir AimPressed quando o botão direito do mouse for pressionado
-            bool isAiming = Input.GetMouseButton(1); // Botão direito do mouse
-            animator.SetBool("AimPressed", isAiming);
+            velocity.y += gravity * Time.deltaTime;
 
-            // Shooting animation
-            if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime && currentAmmunition > 0) // Botão esquerdo do mouse
+            // Aplicar movimento
+            characterController.Move((moveInput + new Vector3(0, velocity.y, 0)) * Time.deltaTime);
+
+            // Camera rotation
+            Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
+
+            transform.Rotate(Vector3.up * mouseInput.x);
+            float newVerticalRotation = cameraTransform.localEulerAngles.x - mouseInput.y;
+            newVerticalRotation = (newVerticalRotation > 180) ? newVerticalRotation - 360 : newVerticalRotation;
+            newVerticalRotation = Mathf.Clamp(newVerticalRotation, -90f, 90f);
+            cameraTransform.localEulerAngles = new Vector3(newVerticalRotation, 0f, 0f);
+
+            // Atualizar o Animator para idle, walk, run e aim
+            if (animator != null)
             {
-                animator.SetTrigger("Shooting");
-
-                // Código adicionado para ajustar a direção do firePoint
-                RaycastHit hit;
-                if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 200f))
+                if (moveInput == Vector3.zero)
                 {
-                    if (Vector3.Distance(cameraTransform.position, hit.point) > 1f)
-                    {
-                        firePoint.LookAt(hit.point);
-                    }
-                    else
-                    {
-                        firePoint.LookAt(cameraTransform.position + (cameraTransform.forward * 40f));
-                    }
+                    animator.SetFloat("Speed", 0); // Idle
+                }
+                else if (!Input.GetKey(KeyCode.LeftShift))
+                {
+                    animator.SetFloat("Speed", 0.5f); // Walk
+                }
+                else
+                {
+                    animator.SetFloat("Speed", 1); // Run
                 }
 
-                Instantiate(bullet, firePoint.position, firePoint.rotation);
+                // Definir AimPressed quando o botão direito do mouse for pressionado
+                bool isAiming = Input.GetMouseButton(1); // Botão direito do mouse
+                animator.SetBool("AimPressed", isAiming);
 
-                fireCounter++;
-                currentAmmunition--; // Reduzir a quantidade de munição
-                nextFireTime = Time.time + fireRate;
-                Debug.Log("Tiros disparados: " + fireCounter);
-                Debug.Log("Munição restante no pente: " + currentAmmunition);
-                Debug.Log("Munição em reserva: " + reserveAmmo);
+                // Shooting animation
+                if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime && currentAmmunition > 0) // Botão esquerdo do mouse
+                {
+                    animator.SetTrigger("Shooting");
 
-                StartCoroutine(WaitAndSetActiveFalse());
-            }
+                    // Código adicionado para ajustar a direção do firePoint
+                    RaycastHit hit;
+                    if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 200f))
+                    {
+                        if (Vector3.Distance(cameraTransform.position, hit.point) > 1f)
+                        {
+                            firePoint.LookAt(hit.point);
+                        }
+                        else
+                        {
+                            firePoint.LookAt(cameraTransform.position + (cameraTransform.forward * 40f));
+                        }
+                    }
 
-            // Recarregar arma
-            if (Input.GetKeyDown(KeyCode.R) && currentAmmunition < maxLoadedAmmo && reserveAmmo > 0)
-            {
-                int ammoNeeded = maxLoadedAmmo - currentAmmunition;
-                int ammoToReload = Mathf.Min(ammoNeeded, reserveAmmo);
-                currentAmmunition += ammoToReload;
-                reserveAmmo -= ammoToReload;
-                Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
+                    Instantiate(bullet, firePoint.position, firePoint.rotation);
+
+                    fireCounter++;
+                    currentAmmunition--; // Reduzir a quantidade de munição
+                    nextFireTime = Time.time + fireRate;
+                    Debug.Log("Tiros disparados: " + fireCounter);
+                    Debug.Log("Munição restante no pente: " + currentAmmunition);
+                    Debug.Log("Munição em reserva: " + reserveAmmo);
+
+                    StartCoroutine(WaitAndSetActiveFalse());
+                }
+
+                // Recarregar arma
+                if (Input.GetKeyDown(KeyCode.R) && currentAmmunition < maxLoadedAmmo && reserveAmmo > 0)
+                {
+                    int ammoNeeded = maxLoadedAmmo - currentAmmunition;
+                    int ammoToReload = Mathf.Min(ammoNeeded, reserveAmmo);
+                    currentAmmunition += ammoToReload;
+                    reserveAmmo -= ammoToReload;
+                    Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
+                }
             }
         }
     }

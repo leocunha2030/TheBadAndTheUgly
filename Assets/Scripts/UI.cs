@@ -14,6 +14,8 @@ public class UI : MonoBehaviour
     public Image DamageEffect;
     public float damageAlpha = 0.3f, damageFadeSpeed = 3f;
 
+    public GameObject pauseScreen;
+
     private void Awake()
     {
         instance = this;
