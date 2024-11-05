@@ -5,21 +5,27 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
     public float waitAfterDeath = 3f;
-
     public int killedEnemies;
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Manter o GameManager entre cenas
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -36,7 +42,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(waitAfterDeath);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
     }*/
 
     public void PauseUnpause()
@@ -46,7 +51,6 @@ public class GameManager : MonoBehaviour
             UI.instance.pauseScreen.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1f;
-
         }
         else
         {
