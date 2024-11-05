@@ -397,6 +397,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1942289980213182, guid: 085e53ee40ad24b40a83bd90705ad460, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6346897803202289804}
+    - targetCorrespondingSourceObject: {fileID: 1942289980213182, guid: 085e53ee40ad24b40a83bd90705ad460, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7117448899441231359}
   m_SourcePrefab: {fileID: 100100000, guid: 085e53ee40ad24b40a83bd90705ad460, type: 3}
 --- !u!1 &6063436067619462022 stripped
 GameObject:
@@ -510,6 +513,22 @@ MonoBehaviour:
   bullet: {fileID: 6005926340913586127, guid: 8d3523bb3d2eb8449bdcaaf56c3170d9, type: 3}
   animator: {fileID: 6158537657296222302}
   MuzzleFlash: {fileID: 7632670500014032948}
+  footstepsSound: {fileID: 260097134437838546, guid: 97e76e4172836364c88ae936a85cadda, type: 3}
+--- !u!114 &7117448899441231359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063436067619462022}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9bef37419866f4294813e0c8420915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepsSound: {fileID: 260097134437838546, guid: 97e76e4172836364c88ae936a85cadda, type: 3}
+  agent: {fileID: 2351207230039869261}
+  minSpeedForFootsteps: 0.1
 --- !u!4 &6065310464019934902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4239448614351502, guid: 085e53ee40ad24b40a83bd90705ad460, type: 3}
