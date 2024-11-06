@@ -1,19 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    public Transform cameraTarget;
+    public Transform cameraTarget; // O alvo que a câmera seguirá
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // LateUpdate is called once per frame, after all Update calls
     void LateUpdate()
     {
+        // Posiciona e rotaciona a câmera para coincidir com o alvo
         transform.position = cameraTarget.position;
         transform.rotation = cameraTarget.rotation;
     }

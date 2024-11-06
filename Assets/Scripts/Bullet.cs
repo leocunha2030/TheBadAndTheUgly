@@ -1,27 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float bulletSpeed, lifeTime;
-    public int damage;
-    public Rigidbody theRigidbody;
-    public bool damageEnemy, damagePlayer;
+    public float bulletSpeed, lifeTime; // Velocidade e dura��o da bala
+    public int damage; // Quantidade de dano da bala
+    public Rigidbody theRigidbody; // Corpo r�gido da bala para manipular f�sica
+    public bool damageEnemy, damagePlayer; // Flags para determinar se a bala pode causar dano a inimigos ou ao jogador
 
-    // Prefabs dos efeitos
-    public GameObject bloodSplatterPrefab;
-    public GameObject dustEffectPrefab;
-
-    void Start()
-    {
-    }
+    public GameObject bloodSplatterPrefab; // Efeito de sangue ao acertar inimigos
+    public GameObject dustEffectPrefab; // Efeito de poeira ao acertar outros objetos
 
     void Update()
     {
+        // Define a velocidade da bala e decrementa o tempo de vida
         theRigidbody.linearVelocity = transform.forward * bulletSpeed;
         lifeTime -= Time.deltaTime;
 
+        // Destroi a bala quando o tempo de vida expira
         if (lifeTime <= 0)
         {
             Destroy(gameObject);
@@ -30,31 +25,32 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Caso a bala acerte um inimigo
         if (other.gameObject.tag == "Enemy" && damageEnemy)
         {
-            // Aplica o dano ao inimigo
+            // Aplica dano ao inimigo e instancia efeito de sangue
             other.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage);
-            // Instancia o efeito de blood splatter
             Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
         }
         else if (other.gameObject.tag == "Head" && damageEnemy)
         {
+            // Aplica dano em dobro ao atingir a cabe�a do inimigo e instancia efeito de sangue
             other.transform.parent.gameObject.GetComponent<EnemyHealth>().DamageEnemy(damage * 2);
             Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
         }
         else if (other.gameObject.tag == "Player" && damagePlayer)
         {
-            // Aplica dano ao jogador
+            // Aplica dano ao jogador e instancia efeito de sangue
             PlayerHealth.instance.DamagePlayer(damage);
-            // Instancia o efeito de blood splatter ao atingir o jogador
             Instantiate(bloodSplatterPrefab, transform.position, Quaternion.identity);
         }
         else
         {
-            // Instancia o efeito de poeira para outros objetos
+            // Instancia efeito de poeira ao atingir outros objetos
             Instantiate(dustEffectPrefab, transform.position, Quaternion.identity);
         }
 
+        // Destroi a bala ap�s a colis�o
         Destroy(gameObject);
     }
 }

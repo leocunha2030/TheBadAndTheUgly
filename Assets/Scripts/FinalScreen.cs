@@ -4,17 +4,18 @@ using TMPro;
 
 public class FinalScreen : MonoBehaviour
 {
-    public string mainMenuScene;
-    public TextMeshProUGUI killedEnemiesText;
+    public string mainMenuScene; // Nome da cena do menu principal
+    public TextMeshProUGUI killedEnemiesText; // Texto UI para exibir o número de inimigos mortos
     public static FinalScreen instance;
 
     private void Awake()
     {
-        instance = this;
+        instance = this; // Configura uma instância singleton para acesso global
     }
 
     void Start()
     {
+        // Inicializa o texto de inimigos mortos, exibindo zero no início
         if (killedEnemiesText != null)
         {
             killedEnemiesText.text = "Killed Enemies: " + 0;
@@ -27,6 +28,7 @@ public class FinalScreen : MonoBehaviour
 
     void Update()
     {
+        // Atualiza o texto de inimigos mortos com base na contagem do GameManager
         if (killedEnemiesText != null && GameManager.instance != null)
         {
             killedEnemiesText.text = "Killed Enemies: " + GameManager.instance.killedEnemies;
@@ -35,11 +37,13 @@ public class FinalScreen : MonoBehaviour
 
     public void MainMenu()
     {
+        // Carrega a cena do menu principal
         SceneManager.LoadScene(mainMenuScene);
     }
 
     public void QuitGame()
     {
+        // Fecha a aplicação
         Application.Quit();
     }
 }

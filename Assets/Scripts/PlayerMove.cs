@@ -3,65 +3,66 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed;
-    public float mouseSensitivity;
-    public float gravity = -9.81f;
-    public float jumpHeight = 1.5f;
-    public float runSpeedMultiplier = 1.5f;
-    public float jumpVelocity;
+    public float moveSpeed; // Velocidade de movimento do jogador
+    public float mouseSensitivity; // Sensibilidade do mouse para rotação
+    public float gravity = -9.81f; // Valor da gravidade aplicada ao jogador
+    public float jumpHeight = 1.5f; // Altura do pulo do jogador
+    public float runSpeedMultiplier = 1.5f; // Multiplicador de velocidade para corrida
 
-    public static PlayerMove instance;
+    public static PlayerMove instance; // Singleton para acesso global
 
-    private Vector3 moveInput;
-    private Vector3 velocity;
-    public Transform cameraTransform;
-    public Animator animator;
-    public bool canJump = true;
+    private Vector3 moveInput; // Armazena o movimento do jogador
+    private Vector3 velocity; // Armazena a velocidade vertical do jogador
+    public Transform cameraTransform; // Referência à câmera para rotação
+    public Animator animator; // Componente Animator para animações do jogador
+    public bool canJump = true; // Flag para verificar se o jogador pode pular
 
-    public GameObject bullet;
-    public Transform firePoint;
+    public GameObject bullet; // Prefab da bala disparada pelo jogador
+    public Transform firePoint; // Ponto de onde a bala é disparada
 
-    public Transform aimTarget;
-    public float aimIKTransitionTime = 0.1f;
-    private float currentIKWeight = 0f;
-    public float aimIKTransitionSpeed = 3f;
+    public Transform aimTarget; // Alvo de mira para onde o jogador deve apontar
+    public float aimIKTransitionTime = 0.1f; // Tempo de transição para o IK de mira
+    private float currentIKWeight = 0f; // Peso atual do IK para suavizar a transição
+    public float aimIKTransitionSpeed = 3f; // Velocidade de transição do IK
 
-    public CharacterController characterController;
+    public CharacterController characterController; // Controlador de personagem para gerenciar movimento e física
 
-    private int fireCounter = 0;
-    public float fireRate = 0.5f;
-    private float nextFireTime = 0f;
-    public int currentAmmunition = 6;
-    public int maxLoadedAmmo = 6;
-    public int reserveAmmo = 10;
+    private int fireCounter = 0; // Contador de tiros disparados
+    public float fireRate = 0.5f; // Taxa de disparo
+    private float nextFireTime = 0f; // Tempo até o próximo disparo permitido
+    public int currentAmmunition = 6; // Munição atual
+    public int maxLoadedAmmo = 6; // Capacidade máxima de munição no pente
+    public int reserveAmmo = 10; // Munição em reserva
 
-    public GameObject MuzzleFlash;
+    public GameObject MuzzleFlash; // Efeito visual do disparo
     public GameObject killCountMenu; // Referência ao menu de contagem de kills
-    public AudioSource reloadSound; // Referência ao som de recarga
-    public AudioSource emptyGunSound; // Referência ao som de arma sem munição
+    public AudioSource reloadSound; // Som de recarga
+    public AudioSource emptyGunSound; // Som para quando não há munição
 
     private void Awake()
     {
-        instance = this;
+        instance = this; // Configura o singleton para acesso global
     }
 
     void Start()
     {
         if (MuzzleFlash != null)
         {
-            MuzzleFlash.SetActive(false);
+            MuzzleFlash.SetActive(false); // Desativa o MuzzleFlash no início
         }
     }
 
     void Update()
     {
+        // Verifica se a tela de pausa está ativa
         if (!UI.instance.pauseScreen.activeInHierarchy)
         {
+            // Movimento do jogador
             Vector3 verticalMove = transform.forward * Input.GetAxis("Vertical");
             Vector3 horizontalMove = transform.right * Input.GetAxis("Horizontal");
 
             float currentSpeed = moveSpeed;
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift)) // Aumenta a velocidade ao correr
             {
                 currentSpeed *= runSpeedMultiplier;
             }
@@ -72,10 +73,9 @@ public class PlayerMove : MonoBehaviour
             {
                 canJump = true;
                 velocity.y = -2f;
-                if (canJump && Input.GetButtonDown("Jump"))
+                if (canJump && Input.GetButtonDown("Jump")) // Salto do jogador
                 {
                     velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                    jumpVelocity = velocity.y;
                     canJump = false;
                     animator.SetBool("Jumping", true);
                 }
@@ -88,6 +88,7 @@ public class PlayerMove : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
             characterController.Move((moveInput + new Vector3(0, velocity.y, 0)) * Time.deltaTime);
 
+            // Controle de rotação do jogador com o mouse
             Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
             transform.Rotate(Vector3.up * mouseInput.x);
             float newVerticalRotation = cameraTransform.localEulerAngles.x - mouseInput.y;
@@ -95,6 +96,7 @@ public class PlayerMove : MonoBehaviour
             newVerticalRotation = Mathf.Clamp(newVerticalRotation, -90f, 90f);
             cameraTransform.localEulerAngles = new Vector3(newVerticalRotation, 0f, 0f);
 
+            // Animações de movimento e controle de mira
             if (animator != null)
             {
                 if (moveInput == Vector3.zero)
@@ -110,12 +112,13 @@ public class PlayerMove : MonoBehaviour
                     animator.SetFloat("Speed", 1);
                 }
 
-                bool isAiming = Input.GetMouseButton(1);
+                bool isAiming = Input.GetMouseButton(1); // Verifica se o jogador está mirando
                 animator.SetBool("AimPressed", isAiming);
 
+                // Controle de disparo
                 if (isAiming && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
                 {
-                    if (currentAmmunition > 0)
+                    if (currentAmmunition > 0) // Verifica se há munição
                     {
                         animator.SetTrigger("Shooting");
                         RaycastHit hit;
@@ -131,34 +134,29 @@ public class PlayerMove : MonoBehaviour
                             }
                         }
 
-                        Instantiate(bullet, firePoint.position, firePoint.rotation);
+                        Instantiate(bullet, firePoint.position, firePoint.rotation); // Cria a bala
                         fireCounter++;
                         currentAmmunition--;
                         nextFireTime = Time.time + fireRate;
-                        Debug.Log("Tiros disparados: " + fireCounter);
-                        Debug.Log("Munição restante no pente: " + currentAmmunition);
-                        Debug.Log("Munição em reserva: " + reserveAmmo);
 
-                        StartCoroutine(WaitAndSetActiveFalse());
+                        StartCoroutine(WaitAndSetActiveFalse()); // Ativa o MuzzleFlash temporariamente
                     }
                     else
                     {
-                        // Toca o som de arma sem munição
-                        if (emptyGunSound != null)
+                        if (emptyGunSound != null) // Som de arma vazia
                         {
                             emptyGunSound.Play();
                         }
-                        Debug.Log("Sem munição!");
                     }
                 }
 
+                // Recarga de munição
                 if (Input.GetKeyDown(KeyCode.R) && currentAmmunition < maxLoadedAmmo && reserveAmmo > 0)
                 {
                     int ammoNeeded = maxLoadedAmmo - currentAmmunition;
                     int ammoToReload = Mathf.Min(ammoNeeded, reserveAmmo);
                     currentAmmunition += ammoToReload;
                     reserveAmmo -= ammoToReload;
-                    Debug.Log("Recarregando... Munição atual: " + currentAmmunition + ", Munição em reserva: " + reserveAmmo);
 
                     if (reloadSound != null)
                     {
@@ -167,6 +165,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
 
+            // Controle do menu de kills
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 killCountMenu.SetActive(true);
@@ -184,7 +183,7 @@ public class PlayerMove : MonoBehaviour
         if (MuzzleFlash != null && !MuzzleFlash.activeSelf)
         {
             MuzzleFlash.SetActive(true);
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.03f); // Exibe o MuzzleFlash por um curto período
             MuzzleFlash.SetActive(false);
         }
     }
@@ -193,7 +192,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (animator != null)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1)) // Se o jogador está mirando
             {
                 currentIKWeight = Mathf.Clamp01(currentIKWeight + Time.deltaTime * aimIKTransitionSpeed);
                 animator.SetIKPositionWeight(AvatarIKGoal.RightHand, currentIKWeight);
@@ -206,9 +205,9 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 currentIKWeight = Mathf.Clamp01(currentIKWeight - Time.deltaTime * aimIKTransitionSpeed);
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, currentIKWeight);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, currentIKWeight);
-                animator.SetLookAtWeight(currentIKWeight);
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetLookAtWeight(0);
             }
         }
     }
