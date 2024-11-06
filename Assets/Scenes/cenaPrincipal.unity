@@ -53258,7 +53258,6 @@ MonoBehaviour:
   gravity: -30
   jumpHeight: 1
   runSpeedMultiplier: 1.5
-  jumpVelocity: 0
   cameraTransform: {fileID: 1333626902}
   animator: {fileID: 499522376}
   canJump: 0
@@ -53331,7 +53330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  timeUnitlFinalScreen: 1
+  timeUntilFinalScreen: 1
   finalScreenScene: GameOver
 --- !u!114 &1231390549
 MonoBehaviour:
@@ -67017,8 +67016,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -73604,8 +73603,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -90544,8 +90543,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
