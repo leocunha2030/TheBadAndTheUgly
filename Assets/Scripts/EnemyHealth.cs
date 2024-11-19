@@ -4,17 +4,24 @@ public class EnemyHealth : MonoBehaviour
 {
     public int currentHealth; // Vida atual do inimigo
     public Animator animator; // Referência ao Animator para animações
+    private EnemyMove enemyMove; // Referência ao script de movimento
+
+    void Start()
+    {
+        enemyMove = GetComponent<EnemyMove>(); // Obtém a referência ao script EnemyMove
+    }
 
     public void DamageEnemy(int damage)
     {
-        // Reduz a vida do inimigo
-        currentHealth -= damage;
+        currentHealth -= damage; // Reduz a vida do inimigo
 
         if (currentHealth <= 0)
         {
-            // Aciona animação de morte e agenda destruição do objeto
-            animator.SetBool("Dead", true);
-            Invoke("DestroyAfterDelay", 3f);
+            if (enemyMove != null)
+            {
+                enemyMove.Die(); // Desativa o movimento e ataque do inimigo
+            }
+            Invoke("DestroyAfterDelay", 3f); // Agende a destruição do objeto
             GameManager.instance.killedEnemies++;
             UI.instance.killedEnemiesText.text = "Kills:........................ " + GameManager.instance.killedEnemies;
         }
@@ -22,7 +29,6 @@ public class EnemyHealth : MonoBehaviour
 
     void DestroyAfterDelay()
     {
-        // Destroi o objeto inimigo
-        Destroy(gameObject);
+        Destroy(gameObject); // Destroi o objeto inimigo
     }
 }

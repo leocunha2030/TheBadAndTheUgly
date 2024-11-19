@@ -5,6 +5,7 @@ using System.Collections;
 public class EnemyMove : MonoBehaviour
 {
     public float moveSpeed, distanceToStop; // Velocidade de movimento e distância de parada do inimigo
+    public float attackRange = 10f; // Distância mínima para o inimigo atacar
     public NavMeshAgent agent; // Componente NavMeshAgent para navegação automática
     public Transform firePoint; // Ponto de onde o inimigo atira
     public float fireRate; // Taxa de tiros
@@ -13,6 +14,7 @@ public class EnemyMove : MonoBehaviour
     public GameObject bullet; // Prefab da bala que o inimigo dispara
     public Animator animator; // Componente Animator para controlar animações do inimigo
     public GameObject MuzzleFlash; // Efeito visual do disparo
+    private bool isAlive = true; // Variável para controlar se o inimigo está vivo
 
     void Start()
     {
@@ -24,19 +26,32 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        // Define o alvo do inimigo como a posição do jogador
-        Vector3 target = PlayerMove.instance.transform.position;
+        if (!isAlive) return; // Se o inimigo estiver morto, não executa o restante do código
 
-        // Se o inimigo está longe o suficiente, move-se em direção ao alvo
-        if (Vector3.Distance(transform.position, target) > distanceToStop)
+        Vector3 target = PlayerMove.instance.transform.position;
+        float distanceToPlayer = Vector3.Distance(transform.position, target); // Calcula a distância ao jogador
+
+        // Movimento do inimigo
+        if (distanceToPlayer > distanceToStop)
         {
-            agent.destination = target;
+            agent.destination = target; // Segue o jogador
+            animator.SetBool("IsMoving", true); // Animação de movimento
         }
         else
         {
-            agent.destination = transform.position; // Para o movimento quando está próximo o suficiente
+            agent.destination = transform.position; // Para de se mover
+            animator.SetBool("IsMoving", false); // Animação de parada
         }
 
+        // Controle de ataque
+        if (distanceToPlayer <= attackRange && distanceToPlayer <= distanceToStop)
+        {
+            AttackPlayer();
+        }
+    }
+
+    void AttackPlayer()
+    {
         // Controla o tempo entre tiros
         fireCount -= Time.deltaTime;
         if (fireCount <= 0)
@@ -44,7 +59,6 @@ public class EnemyMove : MonoBehaviour
             fireCount = fireRate + fireDelay; // Reinicia o contador de tiros com um atraso
             firePoint.LookAt(PlayerMove.instance.transform.position + new Vector3(0f, 1f, 0f)); // Aponta o ponto de tiro para o jogador
 
-            // Verifica o ângulo para determinar se o inimigo pode atirar
             Vector3 targetDirection = PlayerMove.instance.transform.position - transform.position;
             float angle = Vector3.SignedAngle(targetDirection, transform.forward, Vector3.up);
 
@@ -55,9 +69,6 @@ public class EnemyMove : MonoBehaviour
                 StartCoroutine(WaitAndSetActiveFalse()); // Ativa o efeito de MuzzleFlash
             }
         }
-
-        // Define animação de movimento com base na proximidade do alvo
-        animator.SetBool("IsMoving", agent.remainingDistance >= 0.3f);
     }
 
     IEnumerator WaitAndSetActiveFalse()
@@ -68,5 +79,13 @@ public class EnemyMove : MonoBehaviour
             yield return new WaitForSeconds(0.03f); // Exibe o efeito por um curto período
             MuzzleFlash.SetActive(false);
         }
+    }
+
+    // Método para desativar o inimigo
+    public void Die()
+    {
+        isAlive = false; // Atualiza o status do inimigo
+        agent.enabled = false; // Desativa o movimento do inimigo
+        animator.SetBool("Dead", true); // Aciona a animação de morte
     }
 }
