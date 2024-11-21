@@ -5,7 +5,9 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth instance; // Singleton para acesso global
-    public int maxHealth, currentHealth; // Valores de vida máxima e atual do jogador
+    public int maxHealth; // Vida máxima do jogador
+    public int initialHealth; // Vida inicial do jogador (pode ser configurada)
+    public int currentHealth; // Vida atual do jogador
     public float timeUntilFinalScreen = 1f; // Tempo até a tela final após a morte
     public string finalScreenScene; // Nome da cena de tela final
 
@@ -16,8 +18,10 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        // Inicializa a vida e atualiza a UI
-        currentHealth = maxHealth;
+        // Configura a vida inicial do jogador
+        currentHealth = (initialHealth > 0 && initialHealth <= maxHealth) ? initialHealth : maxHealth;
+
+        // Atualiza a UI com os valores iniciais
         UI.instance.healthSlider.maxValue = maxHealth;
         UI.instance.healthSlider.value = currentHealth;
         UI.instance.healthText.text = "Health: " + currentHealth + "/" + maxHealth;
