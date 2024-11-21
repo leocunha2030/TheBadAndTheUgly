@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feaf01e002d44545af8841a9f7697f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 5
+  currentHealth: 20
   animator: {fileID: 6158537657296222302}
 --- !u!114 &6346897803202289804
 MonoBehaviour:
@@ -505,7 +505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  distanceToStop: 3
+  distanceToStop: 4
+  attackRange: 15
   agent: {fileID: 2351207230039869261}
   firePoint: {fileID: 503809636737483288}
   fireRate: 0.8
@@ -513,7 +514,6 @@ MonoBehaviour:
   bullet: {fileID: 6005926340913586127, guid: 8d3523bb3d2eb8449bdcaaf56c3170d9, type: 3}
   animator: {fileID: 6158537657296222302}
   MuzzleFlash: {fileID: 7632670500014032948}
-  footstepsSound: {fileID: 260097134437838546, guid: 97e76e4172836364c88ae936a85cadda, type: 3}
 --- !u!114 &7117448899441231359
 MonoBehaviour:
   m_ObjectHideFlags: 0

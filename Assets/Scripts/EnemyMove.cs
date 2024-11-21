@@ -44,9 +44,9 @@ public class EnemyMove : MonoBehaviour
         }
 
         // Controle de ataque
-        if (distanceToPlayer <= attackRange && distanceToPlayer <= distanceToStop)
+        if (distanceToPlayer <= attackRange)
         {
-            AttackPlayer();
+            AttackPlayer(); // Chama a função de ataque
         }
     }
 
