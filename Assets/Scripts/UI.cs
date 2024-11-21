@@ -8,13 +8,11 @@ public class UI : MonoBehaviour
     public Slider healthSlider; // Barra de vida do jogador
     public TextMeshProUGUI healthText; // Texto que exibe a vida do jogador
     public TextMeshProUGUI killedEnemiesText; // Texto que exibe a contagem de inimigos mortos
-
     public TextMeshProUGUI currentAmmoText; // Texto para exibir munição atual e máxima
     public TextMeshProUGUI reserveAmmoText; // Texto para exibir munição em reserva
-
+    public TextMeshProUGUI missionText; // Texto para exibir a missão atual
     public Image DamageEffect; // Efeito visual para indicar dano ao jogador
     public float damageAlpha = 0.3f, damageFadeSpeed = 3f; // Transparência e velocidade de desvanecimento do efeito de dano
-
     public GameObject pauseScreen; // Tela de pausa
     public int killedEnemies; // Contagem de inimigos mortos
 
@@ -53,5 +51,14 @@ public class UI : MonoBehaviour
     {
         // Ativa o efeito visual de dano
         DamageEffect.color = new Color(DamageEffect.color.r, DamageEffect.color.g, DamageEffect.color.b, damageAlpha);
+    }
+
+    public void UpdateMissionText(string newMission)
+    {
+        // Atualiza o texto da missão
+        if (missionText != null)
+        {
+            missionText.text = newMission;
+        }
     }
 }
