@@ -15,6 +15,10 @@ public class FinalScreen : MonoBehaviour
 
     void Start()
     {
+        // Libera o cursor do mouse e o torna visível
+        Cursor.lockState = CursorLockMode.None; // Libera o cursor do bloqueio
+        Cursor.visible = true; // Torna o cursor visível
+
         // Inicializa o texto de inimigos mortos, exibindo zero no início
         if (killedEnemiesText != null)
         {

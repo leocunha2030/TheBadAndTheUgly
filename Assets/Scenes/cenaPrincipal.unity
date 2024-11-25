@@ -9669,7 +9669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe15a6ab8f7bc344b2b6b4a831f1473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: GameOver
+  sceneToLoad: VictoryScene
   interactionDistance: 3
 --- !u!4 &233844012 stripped
 Transform:
@@ -14290,7 +14290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7950583670614535052, guid: 8101729344346ea4a8bf1b0c020a8c89, type: 3}
       propertyPath: ammoAmount
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21211,7 +21211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newMissionText: Va para a igreja!
-  missionStartDelay: 30
+  missionStartDelay: 15
   soundSpawner: {fileID: 313369991}
   otherMissionTriggers:
   - {fileID: 626465388}
@@ -27363,7 +27363,8 @@ MonoBehaviour:
   newMissionText: Confesse seus pecados!
   missionStartDelay: 0
   soundSpawner: {fileID: 469227997}
-  otherMissionTriggers: []
+  otherMissionTriggers:
+  - {fileID: 488288952}
 --- !u!65 &626465389
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38246,15 +38247,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6374230949316102807, guid: 8101729344346ea4a8bf1b0c020a8c89, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.622112
+      value: 47.894
       objectReference: {fileID: 0}
     - target: {fileID: 6374230949316102807, guid: 8101729344346ea4a8bf1b0c020a8c89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.0114336
+      value: 4.495
       objectReference: {fileID: 0}
     - target: {fileID: 6374230949316102807, guid: 8101729344346ea4a8bf1b0c020a8c89, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.720469
+      value: 12.75
       objectReference: {fileID: 0}
     - target: {fileID: 6374230949316102807, guid: 8101729344346ea4a8bf1b0c020a8c89, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56459,7 +56460,7 @@ MonoBehaviour:
   fireRate: 0.25
   currentAmmunition: 3
   maxLoadedAmmo: 6
-  reserveAmmo: 30
+  reserveAmmo: 2
   MuzzleFlash: {fileID: 516813165}
   killCountMenu: {fileID: 659264058}
   reloadSound: {fileID: 613053616}
@@ -101153,7 +101154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424532587519252, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98425204
+      value: 0.8165293
       objectReference: {fileID: 0}
     - target: {fileID: 4424532587519252, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -101161,7 +101162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424532587519252, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.17677085
+      value: 0.57730407
       objectReference: {fileID: 0}
     - target: {fileID: 4424532587519252, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -101169,7 +101170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424532587519252, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 20.363
+      value: 70.522
       objectReference: {fileID: 0}
     - target: {fileID: 4522923095824640, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_RootOrder
@@ -101241,7 +101242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4837250907033410, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.96555054
+      value: 0.83108115
       objectReference: {fileID: 0}
     - target: {fileID: 4837250907033410, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -101249,7 +101250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4837250907033410, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.26021555
+      value: -0.55615115
       objectReference: {fileID: 0}
     - target: {fileID: 4837250907033410, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -101257,7 +101258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4837250907033410, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -30.166
+      value: -67.58
       objectReference: {fileID: 0}
     - target: {fileID: 4957626248010666, guid: b32c7959973c2cc489a5a0fcec92c87a, type: 3}
       propertyPath: m_RootOrder
