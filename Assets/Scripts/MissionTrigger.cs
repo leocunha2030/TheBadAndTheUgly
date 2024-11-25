@@ -6,6 +6,9 @@ public class MissionTrigger : MonoBehaviour
     public string newMissionText; // Texto da nova missão a ser exibida
 
     public float missionStartDelay = 0f; // Tempo de atraso para iniciar a missão (em segundos)
+    public SoundSpawner soundSpawner; // Referência ao script SoundSpawner
+
+    public MissionTrigger[] otherMissionTriggers; // Lista de outras missões para parar o som
 
     private bool missionStarted = false; // Verifica se a missão já foi iniciada
 
@@ -16,14 +19,15 @@ public class MissionTrigger : MonoBehaviour
         {
             missionStarted = true; // Marca a missão como iniciada
 
+            // Para sons de outras missões
+            StopOtherMissionSounds();
+
             if (missionStartDelay > 0f)
             {
-                // Aguarda o tempo especificado antes de iniciar a missão
                 StartCoroutine(StartMissionWithDelay());
             }
             else
             {
-                // Inicia a missão imediatamente
                 StartMission();
             }
         }
@@ -34,13 +38,29 @@ public class MissionTrigger : MonoBehaviour
         // Atualiza o texto da missão na UI
         UI.instance.UpdateMissionText(newMissionText);
 
+        // Toca o som, se o SoundSpawner estiver configurado
+        if (soundSpawner != null)
+        {
+            soundSpawner.TriggerSound();
+        }
+
         // Desativa o gatilho para evitar repetição
         gameObject.SetActive(false);
     }
 
+    private void StopOtherMissionSounds()
+    {
+        foreach (MissionTrigger mission in otherMissionTriggers)
+        {
+            if (mission.soundSpawner != null)
+            {
+                mission.soundSpawner.StopSound();
+            }
+        }
+    }
+
     private System.Collections.IEnumerator StartMissionWithDelay()
     {
-        // Aguarda o tempo especificado antes de iniciar a missão
         yield return new WaitForSeconds(missionStartDelay);
         StartMission();
     }
