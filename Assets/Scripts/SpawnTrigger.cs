@@ -11,7 +11,7 @@ public class SpawnTrigger : MonoBehaviour
         {
             if (spawner != null) // Garante que o spawner está atribuído
             {
-                spawner.SpawnEnemy(); // Chama o método de spawn no EnemySpawner
+                spawner.TriggerSpawn(); // Chama o método de spawn atualizado no EnemySpawner
             }
 
             // Opcional: desativa o trigger após ser ativado
