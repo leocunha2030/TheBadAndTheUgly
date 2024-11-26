@@ -176,9 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Main Menu
-
-'
+  m_text: Menu Principal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
   m_sharedMaterial: {fileID: 1949173159024980402, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
@@ -468,7 +466,7 @@ PrefabInstance:
     - target: {fileID: 2796514499204687105, guid: 5b277ba3698287b499d9e0e5b71b6897, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 0db7582f011bdc541912b6ab09726e27, type: 2}
+      objectReference: {fileID: 9100000, guid: af3dfb79daac5614da64ae44690be540, type: 2}
     - target: {fileID: 2829419751482560855, guid: 5b277ba3698287b499d9e0e5b71b6897, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -887,9 +885,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quit
-
-'
+  m_text: Sair
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
   m_sharedMaterial: {fileID: 1949173159024980402, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
@@ -1414,7 +1410,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Killed Enemies:'
+  m_text: 'Abates: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
   m_sharedMaterial: {fileID: 1949173159024980402, guid: 9121432e1ab91e340ad61f81825fb971, type: 2}
